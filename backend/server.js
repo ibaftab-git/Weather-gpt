@@ -1,3 +1,5 @@
+const { loadEnvFile } = require("node:process");
+loadEnvFile();
 const express = require("express");
 const path = require("path");
 const {
@@ -6,9 +8,14 @@ const {
   cleanWeatherData
 } = require("./services/weatherService");
 
+
+const { getAIResponse } = require("./services/aiService");
+
+
 const app = express();
 const PORT = 3000;
 
+app.use(express.json());
 app.use(express.static(path.join(__dirname, "../frontend")));
 
 app.get("/hello", (request, response) => {
@@ -31,7 +38,7 @@ app.get("/weather", async (request, response) => {
 
     if (!location) {
       return response.status(404).json({
-        error: `No location was found for \"${city}\". Try a more specific city name.`
+        error: `No location was found for "${city}". Try a more specific city name.`
       });
     }
 
@@ -44,6 +51,63 @@ app.get("/weather", async (request, response) => {
 
     return response.status(502).json({
       error: "Live weather data is temporarily unavailable. Please try again shortly."
+    });
+  }
+});
+
+app.post("/chat", async (request, response) => {
+  const message =
+    typeof request.body?.message === "string"
+      ? request.body.message.trim()
+      : "";
+
+  const city =
+    typeof request.body?.city === "string"
+      ? request.body.city.trim()
+      : "";
+
+  if (!message) {
+    return response.status(400).json({
+      error: "Please provide a message."
+    });
+  }
+
+  if (!city) {
+    return response.status(400).json({
+      error: "Please provide a city."
+    });
+  }
+
+  try {
+    const location = await findLocation(city);
+
+    if (!location) {
+      return response.status(404).json({
+        error: `No location was found for "${city}". Try a more specific city name.`
+      });
+    }
+
+    const rawWeatherData = await getRawWeather(location);
+const weatherData = cleanWeatherData(location, rawWeatherData);
+
+const selectedWeatherData = {
+  location: weatherData.location,
+  current: weatherData.current,
+  forecast: weatherData.forecast
+};
+
+const answer = await getAIResponse(message, selectedWeatherData);
+
+    return response.json({
+  answer,
+  weatherData: selectedWeatherData
+});
+
+  } catch (error) {
+    console.error("Chat request failed:", error);
+
+    return response.status(502).json({
+      error: "Could not retrieve weather data or generate an AI response."
     });
   }
 });

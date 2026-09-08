@@ -71,6 +71,35 @@
         </div>
       </section>
 
+            <section class="chat-section" aria-labelledby="chat-title">
+        <div class="section-heading">
+          <div>
+            <p class="card-label">AI ASSISTANT</p>
+            <h2 id="chat-title">Ask WeatherGPT</h2>
+          </div>
+        </div>
+
+        <div id="chat-messages" class="chat-messages" aria-live="polite">
+          <div class="chat-message assistant-message">
+            <strong>WeatherGPT</strong>
+            <p>Hi! Ask me anything.</p>
+          </div>
+        </div>
+
+        <form id="chat-form" class="chat-form">
+          <input
+            id="chat-input"
+            type="text"
+            placeholder="Ask a question..."
+            autocomplete="off"
+            required
+          />
+          <button type="submit">Ask</button>
+        </form>
+
+        <p id="chat-status" class="chat-status" aria-live="polite"></p>
+      </section>
+
       <footer>
         <p>
           WeatherGPT presents retrieved weather data. For severe-weather safety guidance,

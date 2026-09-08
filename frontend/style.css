@@ -273,3 +273,76 @@ footer {
     width: 100%;
   }
 }
+.chat-section {
+  margin-top: 24px;
+  padding: 28px;
+  border: 1px solid #ffffff1f;
+  border-radius: 20px;
+  background: #0d2440de;
+  box-shadow: 0 20px 50px #0000002b;
+}
+
+.chat-messages {
+  display: grid;
+  gap: 12px;
+  max-height: 420px;
+  margin-bottom: 16px;
+  padding: 4px;
+  overflow-y: auto;
+}
+
+.chat-message {
+  max-width: 80%;
+  padding: 14px 16px;
+  border-radius: 16px;
+}
+
+.chat-message strong {
+  display: block;
+  margin-bottom: 6px;
+}
+
+.chat-message p {
+  margin: 0;
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+
+.assistant-message {
+  justify-self: start;
+  background: #173452;
+}
+
+.user-message {
+  justify-self: end;
+  background: #176b68;
+}
+
+.chat-form {
+  display: flex;
+  gap: 12px;
+}
+
+.chat-form input {
+  flex: 1;
+}
+
+.chat-status {
+  min-height: 24px;
+  margin: 12px 4px 0;
+  color: #b4c9dc;
+}
+
+@media (max-width: 700px) {
+  .chat-form {
+    flex-direction: column;
+  }
+
+  .chat-form button {
+    width: 100%;
+  }
+
+  .chat-message {
+    max-width: 95%;
+  }
+}

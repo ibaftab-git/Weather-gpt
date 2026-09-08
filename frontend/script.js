@@ -116,3 +116,82 @@ weatherForm.addEventListener("submit", (event) => {
 
   loadWeather(city);
 });
+
+const chatForm = document.querySelector("#chat-form");
+const chatInput = document.querySelector("#chat-input");
+const chatMessages = document.querySelector("#chat-messages");
+const chatStatus = document.querySelector("#chat-status");
+const chatSubmitButton = chatForm.querySelector("button");
+
+function addChatMessage(role, message) {
+  const messageElement = document.createElement("div");
+  const labelElement = document.createElement("strong");
+  const textElement = document.createElement("p");
+
+  messageElement.className = `chat-message ${
+    role === "user" ? "user-message" : "assistant-message"
+  }`;
+
+  labelElement.textContent = role === "user" ? "You" : "WeatherGPT";
+  textElement.textContent = message;
+
+  messageElement.append(labelElement, textElement);
+  chatMessages.append(messageElement);
+  chatMessages.scrollTop = chatMessages.scrollHeight;
+}
+
+async function sendChatMessage(message, city) {
+  chatStatus.textContent = "WeatherGPT is thinking...";
+  chatSubmitButton.disabled = true;
+  chatInput.disabled = true;
+
+  try {
+    const chatResponse = await fetch("/chat", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+  message,
+  city: cityInput.value.trim()
+  })
+    });
+
+    const chatData = await chatResponse.json();
+
+    if (!chatResponse.ok) {
+      throw new Error(chatData.error || "Could not get an AI response.");
+    }
+
+    addChatMessage("assistant", chatData.answer);
+    chatStatus.textContent = "";
+  } catch (error) {
+    chatStatus.textContent = error.message;
+  } finally {
+    chatSubmitButton.disabled = false;
+    chatInput.disabled = false;
+    chatInput.focus();
+  }
+}
+
+chatForm.addEventListener("submit", (event) => {
+  event.preventDefault();
+
+  const message = chatInput.value.trim();
+
+  if (!message) {
+    return;
+  }
+
+  const city = cityInput.value.trim();
+
+  if (!city) {
+    chatStatus.textContent = "Please enter a city name first.";
+    return;
+  }
+
+  addChatMessage("user", message);
+  chatInput.value = "";
+
+  sendChatMessage(message, city);
+});
