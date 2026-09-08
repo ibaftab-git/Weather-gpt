@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>WeatherGPT</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="page-container">
+      <header class="hero">
+        <p class="eyebrow">WEATHER INFORMATION, EXPLAINED CLEARLY</p>
+        <h1>WeatherGPT</h1>
+        <p class="hero-description">
+          Search a city to see current weather and a seven-day forecast.
+        </p>
+      </header>
+
+      <section class="search-panel" aria-labelledby="search-title">
+        <h2 id="search-title">Choose a location</h2>
+        <form id="weather-form">
+          <label for="city-input">City name</label>
+          <div class="search-row">
+            <input
+              id="city-input"
+              name="city"
+              type="text"
+              placeholder="For example, Delhi"
+              value="Delhi"
+              required
+            />
+            <button type="submit">Get weather</button>
+          </div>
+        </form>
+      </section>
+
+      <p id="status-message" class="status-message" aria-live="polite">
+        Enter a city, then select Get weather.
+      </p>
+
+      <section id="weather-card" class="weather-card" aria-labelledby="location-title">
+        <div>
+          <p class="card-label">CURRENT WEATHER</p>
+          <h2 id="location-title">Your weather will appear here</h2>
+          <p id="current-condition" class="condition">Waiting for a city search</p>
+        </div>
+
+        <div class="temperature-block">
+          <span id="current-temperature">--</span>
+          <span class="temperature-unit">°C</span>
+        </div>
+
+        <div class="weather-details">
+          <p><span>Feels like</span><strong id="feels-like">--</strong></p>
+          <p><span>Humidity</span><strong id="humidity">--</strong></p>
+          <p><span>Wind</span><strong id="wind-speed">--</strong></p>
+          <p><span>Visibility</span><strong id="visibility">--</strong></p>
+        </div>
+      </section>
+
+      <section class="forecast-section" aria-labelledby="forecast-title">
+        <div class="section-heading">
+          <div>
+            <p class="card-label">UPCOMING DAYS</p>
+            <h2 id="forecast-title">Seven-day forecast</h2>
+          </div>
+          <p id="source-label" class="source-label">Source will appear after search</p>
+        </div>
+        <div id="forecast-list" class="forecast-list">
+          <p class="empty-forecast">Forecast data will appear here after your search.</p>
+        </div>
+      </section>
+
+      <footer>
+        <p>
+          WeatherGPT presents retrieved weather data. For severe-weather safety guidance,
+          follow official local advisories.
+        </p>
+      </footer>
+    </main>
+  </body>
+</html>
