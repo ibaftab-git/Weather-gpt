@@ -4,7 +4,9 @@ const app = express();
 const PORT = 3000;
 
 app.get("/hello", (request, response) => {
-  response.send("Hello from WeatherGPT!");
+  const name = request.query.name || "Guest";
+
+  response.send(`Hello, ${name}, from WeatherGPT!`);
 });
 
 app.listen(PORT, () => {
