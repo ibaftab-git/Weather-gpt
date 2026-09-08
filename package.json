@@ -1,0 +1,12 @@
+{
+  "name": "weathergpt",
+  "version": "1.0.0",
+  "description": "A hackathon MVP for conversational weather information.",
+  "private": true,
+  "scripts": {
+    "start": "node backend/server.js"
+  },
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
